@@ -45,6 +45,28 @@ client.connect(err => {
     res.send(result.insertedCount > 0);
   })
 })
+
+
+
+// cart
+
+
+// app.get('/cart',(req, res) => {
+//   itemCollection.find()
+//   .toArray((err,items) =>{
+//     res.send(items)
+
+//   })
+// })
+// app.post('/addCart',(req, res) => {
+//   const cartItems = req.body;
+//   console.log('adding new event: ', cartItems);
+//   itemCollection.insertOne(cartItems)
+//   .then(result => {
+//     console.log('inserted Count', result.insertedCount);
+//     res.send(result.insertedCount > 0);
+//   })
+// })
     
 
 // app.delete('/delete/:id',(req, res) => {
