@@ -124,7 +124,7 @@ app.get('/order',(req, res) => {
 
 
   app.get('/', (req, res) => {
-    res.send('this is my assignment-10');
+    res.send('Delicious Food Project server-side');
   })
   
   
