@@ -4,7 +4,7 @@ const express = require('express')
 const MongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 // const ObjectId = require('mongodb').ObjectID;
-
+const ObjectId = require("mongodb").ObjectId;
 const cors = require ('cors');
 require('dotenv').config()
 
@@ -21,6 +21,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 client.connect(err => {
     const itemCollection = client.db("deliciousData").collection("items");
+    const orderCollection = client.db("cartData").collection("allCart");
     // perform actions on the collection object
   console.log('Data-Base connection successfully');
 
@@ -33,8 +34,6 @@ client.connect(err => {
 
   })
 })
-
-
   // post data set to the mongodb database
  app.post('/addItems',(req, res) => {
   const newItems = req.body;
@@ -47,49 +46,79 @@ client.connect(err => {
 })
 
 
+//  delete
 
-// cart
+app.delete("/delete/:id" , (req, res) =>{
+  const id = req.params.id;
+  console.log(req.params.id); 
+  itemCollection.deleteOne({_id : ObjectId(id)})
+  .then(documents => res.send("send"))
+})
 
 
-// app.get('/cart',(req, res) => {
-//   itemCollection.find()
-//   .toArray((err,items) =>{
-//     res.send(items)
 
-//   })
-// })
-// app.post('/addCart',(req, res) => {
-//   const cartItems = req.body;
-//   console.log('adding new event: ', cartItems);
-//   itemCollection.insertOne(cartItems)
-//   .then(result => {
-//     console.log('inserted Count', result.insertedCount);
-//     res.send(result.insertedCount > 0);
-//   })
-// })
-    
+app.post('/addOrder',(req, res) => {
+  const newItems = req.body;
+  console.log('adding new event: ', newItems);
+  orderCollection.insertOne(newItems)
+  .then(result => {
+    console.log('inserted Count', result.insertedCount);
+    res.send(result.insertedCount > 0);
+  })
+})
 
-// app.delete('/delete/:id',(req, res) => {
-//   itemCollection.deleteOne({_id: ObjectId(req.params.id)})
-//   .then(result=>{
-//     console.log(result);
-//   })
-// })
+// get
 
-app.delete('/delete/:id',(req, res) => {
-  productCollection.deleteOne({_id: ObjectId(req.params.id)})
-  .then(result=>{
-    // console.log(result);
-    res.send(result.deletedCount > 0);
-    
+app.get('/order',(req, res) => {
+  orderCollection.find()
+  .toArray((err,items) =>{
+    res.send(items)
+
   })
 })
 
 
 
 
-  })
 
+})
+
+
+
+
+// Add Order 
+
+  
+// client.connect(err => {
+//     const orderCollection = client.db("cartData").collection("allCart");
+//   // perform actions on the collection object
+// //  add order  start
+
+// app.post('/addOrder',(req, res) => {
+//   const newItems = req.body;
+//   console.log('adding new event: ', newItems);
+//   orderCollection.insertOne(newItems)
+//   .then(result => {
+//     console.log('inserted Count', result.insertedCount);
+//     res.send(result.insertedCount > 0);
+//   })
+// })
+
+// // get
+
+// app.get('/order',(req, res) => {
+//   orderCollection.find()
+//   .toArray((err,items) =>{
+//     res.send(items)
+
+//   })
+// })
+
+
+
+
+
+// });
 
 
 
